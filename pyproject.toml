@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "owlv2-detect"
-version = "0.1.0"
+version = "0.1.1"
 description = "Wrapper to easily install and use OWLv2 models for zero-shot object detection"
 readme = "README.md"
 requires-python = ">=3.12"
