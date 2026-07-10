@@ -1,0 +1,53 @@
+[project]
+name = "owlv2-detect"
+version = "0.1.0"
+description = "Wrapper to easily install and use OWLv2 models for zero-shot object detection"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "accelerate>=1.14.0",
+    "opencv-python>=5.0.0.93",
+    "pillow>=12.3.0",
+    "requests>=2.34.2",
+    "scipy>=1.18.0",
+    "tqdm>=4.67.1",
+    "torch>=2.12.1",
+    "transformers>=5.13.0",
+]
+
+[project.optional-dependencies]
+cuda = ["torch>=2.12.1"]
+rocm = ["torch>=2.12.1"]
+xpu = ["torch>=2.12.1"]
+
+[tool.uv]
+conflicts = [
+    [
+        { extra = "cuda" },
+        { extra = "rocm" },
+        { extra = "xpu" },
+    ],
+]
+
+
+[[tool.uv.index]]
+name = "pytorch-cuda"
+url = "https://download.pytorch.org/whl/cu132"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-rocm"
+url = "https://download.pytorch.org/whl/rocm7.2"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-xpu"
+url = "https://download.pytorch.org/whl/xpu"
+explicit = true
+
+[tool.uv.sources]
+torch = [
+    { index = "pytorch-cuda", marker = "extra == 'cuda'" },
+    { index = "pytorch-rocm", marker = "extra != 'cuda' and extra == 'rocm'" },
+    { index = "pytorch-xpu", marker = "extra != 'cuda' and extra != 'rocm' and extra == 'xpu'" },
+]
