@@ -1,3 +1,7 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "owlv2-detect"
 version = "0.1.0"
@@ -14,6 +18,9 @@ dependencies = [
     "torch>=2.12.1",
     "transformers>=5.13.0",
 ]
+
+[project.scripts]
+owlv2-detect = "main:cli"
 
 [project.optional-dependencies]
 cuda = ["torch>=2.12.1"]
@@ -51,3 +58,9 @@ torch = [
     { index = "pytorch-rocm", marker = "extra != 'cuda' and extra == 'rocm'" },
     { index = "pytorch-xpu", marker = "extra != 'cuda' and extra != 'rocm' and extra == 'xpu'" },
 ]
+
+[tool.setuptools]
+py-modules = ["main"]
+
+[tool.setuptools.packages.find]
+include = ["commands*"]

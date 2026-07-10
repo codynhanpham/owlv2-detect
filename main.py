@@ -19,18 +19,18 @@ def build_parser() -> argparse.ArgumentParser:
 
     examples = """Examples:
     Default general detection:
-        main.py -i /path/to/image.png -t "human" "cat" "car"
+        owlv2-detect -i /path/to/image.png -t "human" "cat" "car"
         Output: [{"file": "...", "objects": [{"label": "human", "bbox": [x1, y1, x2, y2], "score": 0.98}]}]
 
     Explicit general subcommand:
-        main.py general -i /path/to/image.png -t "human" "cat" "car"
+        owlv2-detect general -i /path/to/image.png -t "human" "cat" "car"
         Output: [{"file": "...", "objects": [{"label": "human", "bbox": [x1, y1, x2, y2], "score": 0.98}]}]
 
     General detection help:
-        main.py general -h
+        owlv2-detect general -h
 
     Black-marks detection pipeline:
-        main.py black-marks -i /path/to/file.mp4
+        owlv2-detect black-marks -i /path/to/file.mp4
         Output: [{"file": "...", "markers": [[x, y], ...]}]
 """
     parser = argparse.ArgumentParser(

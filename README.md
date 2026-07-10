@@ -41,19 +41,19 @@ Then, use the typical install flow:
 Run the default `general` pipeline on one image:
 
 ```bash
-uv run main.py -i path/to/image.png -t "person" "dog"
+uv run owlv2-detect -i path/to/image.png -t "person" "dog"
 ```
 
 Run the same pipeline explicitly as a subcommand:
 
 ```bash
-uv run main.py general -i path/to/image.png -t "person" "dog"
+uv run owlv2-detect general -i path/to/image.png -t "person" "dog"
 ```
 
 Run the pooled video workflow ([wth???](#black-marks-pipeline)):
 
 ```bash
-uv run main.py black-marks -i path/to/video.mp4
+uv run owlv2-detect black-marks -i path/to/video.mp4
 ```
 
 The subcommands print different JSON shapes:
@@ -64,7 +64,7 @@ The subcommands print different JSON shapes:
 Use the multi-pass filter syntax by repeating `--filter TYPE VALUE` pairs in the order you want them applied:
 
 ```bash
-uv run main.py general \
+uv run owlv2-detect general \
   -i path/to/image.png \
   -t "object" \
   -f brightness 0.2 \
@@ -90,9 +90,9 @@ The first time you run the CLI with a new model, it will download the model weig
 ### Help
 
 ```bash
-uv run main.py --help
-uv run main.py general --help
-uv run main.py black-marks --help
+uv run owlv2-detect --help
+uv run owlv2-detect general --help
+uv run owlv2-detect black-marks --help
 ```
 
 ### Common Options
@@ -102,7 +102,7 @@ uv run main.py black-marks --help
 - `-f, --filter`: repeated `TYPE VALUE` adjustment pairs.
 - `-m, --model`: Hugging Face model ID to load.
 - `-b, --batch-size`: number of images per model forward pass.
-- `--detection-threshold`: minimum score kept after post-processing.
+- `--detection-threshold`: minimum score to keep OWLv2 detected results, before post-processing.
 - `--log-level`: `quiet`, `warning`, `info`, or `debug`.
 
 ### Filter Types
