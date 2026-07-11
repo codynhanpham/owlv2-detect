@@ -111,19 +111,17 @@ def resolve_local_model_dir(model_id: str) -> str:
         return model_cache_dir
 
     os.makedirs(model_cache_dir, exist_ok=True)
-    return snapshot_download(
-        repo_id=model_id,
-        local_dir=model_cache_dir,
-        local_dir_use_symlinks=False,
-    )  # type: ignore
+    download_context = suppress_console_output() if QUIET_CONSOLE else contextlib.nullcontext()
+    with download_context:
+        return snapshot_download(
+            repo_id=model_id,
+            local_dir=model_cache_dir,
+            local_dir_use_symlinks=False,
+        )  # type: ignore
 
 
 @lru_cache(maxsize=4)
 def get_processor_and_model(model_id: str) -> tuple[Owlv2Processor, Owlv2ForObjectDetection]:
-    if QUIET_CONSOLE:
-        os.environ.setdefault("HF_HUB_DISABLE_PROGRESS_BARS", "1")
-        os.environ.setdefault("TRANSFORMERS_NO_TQDM", "1")
-
     model_dir = resolve_local_model_dir(model_id)
     load_context = suppress_console_output() if QUIET_CONSOLE else contextlib.nullcontext()
     with load_context:
@@ -210,6 +208,14 @@ def configure_runtime(log_level: str) -> tuple[bool, bool]:
     show_progress = log_level in {"info", "debug"}
     save_preprocessed_debug = log_level == "debug"
     QUIET_CONSOLE = log_level == "quiet"
+
+    if QUIET_CONSOLE:
+        os.environ["HF_HUB_DISABLE_PROGRESS_BARS"] = "1"
+        os.environ["HF_HUB_DISABLE_TELEMETRY"] = "1"
+        os.environ["TRANSFORMERS_NO_TQDM"] = "1"
+        os.environ["TRANSFORMERS_VERBOSITY"] = "error"
+        os.environ["HF_HUB_VERBOSITY"] = "error"
+        os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
     level_map = {
         "quiet": logging.ERROR,

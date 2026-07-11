@@ -125,7 +125,6 @@ def cli() -> int:
             _log_active_arguments(namespace, general_config, show_progress, save_preprocessed_debug)
         results = run_general(general_config, show_progress, save_preprocessed_debug)
 
-    print()
     print(json.dumps(results))
     return 0
 
